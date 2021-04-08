@@ -1,2 +1,3 @@
 *.ipynb
 keys*
+__pycache__/
