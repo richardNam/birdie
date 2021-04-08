@@ -34,6 +34,15 @@ def extract_refresh_ts(
 
 
 def localize_timestamp(dt, timezone):
+    """ Localizes the datetime to timestamp
+
+    Args:
+        dt (datetime.datetime):
+        timezone (str):
+
+    Returns: int
+
+    """
     tz = pytz.timezone(timezone)
     local_dt = tz.localize(dt)
     return calendar.timegm(local_dt.utctimetuple())
