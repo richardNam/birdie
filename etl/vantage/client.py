@@ -1,5 +1,10 @@
 from alpha_vantage.timeseries import TimeSeries
 
+
+__all__ = [
+    'AlphaVantageClient',
+]
+
 class AlphaVantageClient:
     def __init__(self, key):
         self.key = key
