@@ -99,13 +99,14 @@ def flatten_observations(observations, tz):
 
     return pd.DataFrame(total)
 
-def process_response(data, meta_data):
+def process_response(data, meta_data, symbol):
     last_refreshed_ts, timezone = extract_refresh_ts(
         meta_data
     )
     df = flatten_observations(data, tz=timezone)
     df['last_refreshed_ts'] = last_refreshed_ts
     df['timezone'] = timezone
+    df['symbol'] = symbol
 
     return df
 
