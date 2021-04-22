@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # Alpha Vantage Client
     stocks_engine = get_engine('stocks')
     vantage_handler = VantageHandler(
-        SQLClient(engine=stocks_engine),
+        sql_client=SQLClient(engine=stocks_engine),
         data_client=AlphaVantageClient(
             key=config.alpha_vantage_key
         ),
