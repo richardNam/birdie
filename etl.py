@@ -15,6 +15,7 @@ if __name__ == '__main__':
             key=config.alpha_vantage_key
         ),
         symbols=config.symbols,
+        sleep_seconds=config.sleep_seconds,
     )
     vantage_handler.run()
 
