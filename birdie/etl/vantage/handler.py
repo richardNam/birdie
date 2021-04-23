@@ -28,9 +28,10 @@ class VantageHandler:
                     meta_data=meta_data,
                     symbol=symbol
                 )
-                self.sql_client.replace_table(
+                self.sql_client.update_table(
                     df=df,
-                    table_name='vantage_data'
+                    table_name='vantage_data',
+                    update_on=['observation_ts', 'symbol'],
                 )
             except ValueError:
                 print('Incorrect symbol: %r' % symbol)
