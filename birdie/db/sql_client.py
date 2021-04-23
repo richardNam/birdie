@@ -41,7 +41,8 @@ class SQLClient:
         df.to_sql(
             table_name,
             con=self.engine,
-            if_exists='replace'
+            if_exists='replace',
+            index=False,
         )
 
 
@@ -66,16 +67,16 @@ class SQLClient:
             autoload=True,
             autoload_with=self.engine
         )
+
         for _, row in df.iterrows():
             _dict = row.to_dict()
             _filter = and_(db_data.c[i] == _dict.get(i) for i in update_on)
             _data = session.query(db_data).filter(_filter)
             if not len(_data.all()):
-                    session.execute(db_data.insert(), _dict)
+                session.execute(db_data.insert(), _dict)
             else:
-                    _data.update(_dict)
+                _data.update(_dict)
             session.commit()
 
         session.close()
-
 
