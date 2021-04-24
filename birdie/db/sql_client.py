@@ -68,15 +68,30 @@ class SQLClient:
             autoload_with=self.engine
         )
 
-        for _, row in df.iterrows():
-            _dict = row.to_dict()
-            _filter = and_(db_data.c[i] == _dict.get(i) for i in update_on)
-            _data = session.query(db_data).filter(_filter)
-            if not len(_data.all()):
-                session.execute(db_data.insert(), _dict)
-            else:
-                _data.update(_dict)
-            session.commit()
+        try:
+            for _, row in df.iterrows():
+                _dict = row.to_dict()
+                _filter = and_(db_data.c[i] == _dict.get(i) for i in update_on)
+                _data = session.query(db_data).filter(_filter)
+                if not len(_data.all()):
+                    session.execute(db_data.insert(), _dict)
+                else:
+                    _data.update(_dict)
+                session.commit()
 
-        session.close()
+        except Exception as e:
+            session.rollback()
+            raise Exception(
+                'Table update failed',
+                table_name,
+                e,
+                _dict,
+            )
+
+
+        finally:
+            session.close()
+
+
+
 
