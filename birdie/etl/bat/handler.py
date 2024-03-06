@@ -24,23 +24,22 @@ class BringATrailerHandler:
 
 
     def run(self):
-        for symbol in self.symbols:
+        for key in self.keys:
             try:
-                data, meta_data = self.data_client.get_timeseries_data(
-                    symbol=symbol
+                raw_data = self.data_client.get_vin_response(
+                    key=key,
                 )
                 df = process_response(
-                    data=data,
-                    meta_data=meta_data,
-                    symbol=symbol
+                    data=raw_data,
+                    key=key,
                 )
                 self.sql_client.update_table(
                     df=df,
-                    table_name='vantage_data',
-                    update_on=['observation_ts', 'symbol'],
+                    table_name='bat_data',
+                    update_on=['vin'],
                 )
             except ValueError:
-                print('Incorrect symbol: %r' % symbol)
+                print(f'Incorrect symbol: {key}')
 
             time.sleep(self.sleep_seconds)
 
